@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="icon" href="images/avatar.jpg">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/home.css">
+  </head>
+  <body>
+    <label class="navi-button">MENU</label>
+    <input type="text" class="search-input" placeholder="Enter to Search" style="z-index: -1; width: 42px;">
+    <img src="images/search.svg" class="search">
+    <ul class="main-navication">
+      <ul id="menu">
+        <!--<li><a href="./"><span style="opacity: 1; transform: translateX(-10px);">首页</span></a></li>-->
+      </ul>
+      <!--<hr>
+      <ul id="friends">
+        <li><text style="font-size:14px"><span style="color: white; transform: translateX(-10px); opacity: 1;">Friends: </span></text></li>
+      </ul>-->
+    </ul>
+    <div class="main">
+      <div class="page_header" ></div>
+      <div class="author">
+        <div class="head">
+          <img src="images/avatar.jpg" class="img-responsive img-circle">
+        </div>
+        <h3 class="name" id="title"></h3>
+        <p class="name" id="instruction"></p>
+        <p class="name">Hi, <text id="changerificwordspanid"></text>!</p>
+        <div id='tag-display-container' style='position: relative; bottom: 20%;'></div>
+      </div>
+      <div class="container" id="dotline-target" style="position: relative;">
+        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1">
+          <ul id="issue-list" class="main_content" style="padding-left: 0px; opacity: 1; transform: translateY(0px);">
+            <br>
+            <h4 class="title">Loading ...</h4>
+            </br>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 visible-lg visible-md" style="margin: 72px auto 0 auto;">
+          <a style="line-height:1.1;font-weight:700;cursor:pointer;color:#808080;text-decoration: none">FEATURED TAGS</a>
+          <div class="tags" style="margin-top:10px">
+            <a href="?" style="font-weight: bolder;" id="all-tag">All</a>
+          </div>
+          <hr>
+          <div class="tags" style="margin-top:10px" id="tags">
+          </div>
+          <hr>
+          <div class="tags" style="margin-top:10px" id="tags-cn">
+          </div>
+        </div>
+        <canvas id="J_dotLine" style="background-color: #ffffff; position: absolute; left: 0; z-index: -2;"></canvas>
+      </div>
+      <div style="text-align: center">
+        <ul class="pagination" id="pages" style="display: inline-block;">
+        </ul>
+      </div>
+      <div class="footer" style="text-align: center">
+        <div id='icon' style="display: flex;justify-content: center;padding: 0;align-items: center">
+          <div style="padding-inline-start: 0;margin: 0" id="div_Github"><a target="_blank" title="Github" id="icon_Github" href="http://www.github.com/PhillipFeiDing"><img src="images/github.svg" style="width:50px;margin-left:10px;margin-right:10px"></a></div>
+          <div style="padding-inline-start: 0;margin: 0" id="div_LinkdIn"><a target="_blank" title="LinkedIn" id="icon_LinkedIn" href="http://www.linkedin.com/in/fei-ding-9a5410173"><img src="images/linkedin.png" style="width:50px;margin-left:10px;margin-right:10px"></a></div>
+          <div style="padding-inline-start: 0;margin: 0" id="div_Facebook"><a target="_blank" title="Facebook" id="icon_Facebook" href="https://www.facebook.com/people/Fei-Ding/100011045418439"><img src="images/facebook.png" style="width:50px;margin-left:10px;margin-right:10px"></a></div>
+          <div style="padding-inline-start: 0;margin: 0" id="div_Wechat">
+            <a target="_blank" title="Wechat" id="icon_Wechat">
+              <img src="images/wechat.png" style="width:50px;margin-left:10px;margin-right:10px">
+            </a>
+            <img id="Wechat_Qr" src="images/wechat-qr.jpg" style="width: 130px; position: absolute; left: calc(50% - 65px); bottom: 180px; transition: all 0.3s ease 0s; box-shadow: rgb(149, 165, 166) 0px 0px 5px; transform: translateY(-20px); z-index: -1; opacity: 0;">
+          </div>
+        </div>
+        <div id="footer" style="text-align: center;background: #2c3e50;padding-top: 30px;color: white"></div>
+      </div>
+    </div>
+    <img class="Totop" href="javascript:;" src="images/totop.png" style="opacity: 1;">
+  </body>
+  <script src = "js/jquery.min.js"></script>
+  <script src = "js/typed.js"></script>
+  <!--<script src = "js/gitblog.js"></script>-->
+  <script src="js/moment.min.js"></script>
+  <script src="js/zh-cn.js"></script>
+  <script src="js/index_data.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/dotline.js"></script>
+  <script>
+      $(function(){ 
+      　$('.head').css("opacity","1");
+        $('.head').css("transform","translateY(0)");
+        $('.name').css("opacity","1");
+        $('.name').css("transform","translateY(0)");
+        $('.main_content').css("opacity","1");
+        $('.main_content').css("transform","translateY(0)");
+        
+        $("#changerificwordspanid").typed({
+          strings: [
+            "I'm Fei (Phillip). Glad to see you",
+            "I study at Georgia Tech and major in CS",
+            "I enjoy doing web dev, algos, and ML",
+            "I love cycling, badminton, and movies"
+          ],
+          typeSpeed: 20,
+          startDelay: 25,
+          showCursor: true,
+          shuffle: false,
+          loop:true
+        });
+      });
+    </script>
+</html>
