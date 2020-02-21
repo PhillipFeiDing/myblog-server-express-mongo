@@ -97,7 +97,7 @@ Dotline.prototype.drawLine = function (dots) {
 
             _that.ctx.beginPath();
             _that.ctx.lineWidth = ratio / 2;
-            _that.ctx.strokeStyle = 'rgba(0,0,0,' + (ratio + 0.2) + ')';
+            _that.ctx.strokeStyle = 'rgba(127,127,255,' + (ratio + 0.2) + ')';
             _that.ctx.moveTo(dot.x, dot.y);
             _that.ctx.lineTo(nowDot.x, nowDot.y);
             _that.ctx.stroke();//不描边看不出效果
@@ -124,7 +124,7 @@ function render_dot_lines() {
     $canvas.css('height', height + 'px')
     $canvas.css('width', width + 'px')
     $canvas.css('left', '-' + shift + 'px')
-    const num_dots = Math.round(height * width / 7500)
+    const num_dots = Math.round(height * width / 20000)
     var dotline = new Dotline({
         dom: 'J_dotLine',//画布id
         cw: width,//画布宽
