@@ -8,6 +8,7 @@
     "prd": "cross-env NODE_ENV=production pm2 start ./conf/pm2.conf.json"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "connect-redis": "^4.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",

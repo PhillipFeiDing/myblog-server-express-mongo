@@ -51,7 +51,7 @@ const $menuContainer = $('#menu')
 const tagListUrl = '/api/tag/taglist'
 get(tagListUrl).then((res) => {
     if (res.errno !== 0) {
-        alert('数据错误')
+        alert('获取标签数据错误')
         return
     }
     const data = res.data || []
@@ -111,7 +111,7 @@ get(tagListUrl).then((res) => {
     // 加载数据
     get(url).then((res) => {
         if (res.errno !== 0) {
-            alert('数据错误')
+            alert('获取当前页数据错误')
             return
         }
 
@@ -153,7 +153,7 @@ get(tagListUrl).then((res) => {
                         ${getFormatDate(item.createtime)}
                     </p>
                     <h4 class="title">
-                        <a href="/content.html?id=${item.id}">
+                        <a href="/content?id=${item.id}">
                             ${item.title}
                         </a>
                     </h4>
@@ -238,7 +238,7 @@ get(tagListUrl).then((res) => {
     
     get(url).then((res) => {
         if (res.errno !== 0) {
-            alert('数据错误')
+            alert('获取页码数据错误')
             return
         }
         const data = res.data || {}
@@ -295,7 +295,7 @@ get(tagListUrl).then((res) => {
     const url = '/api/menu/menulist'
     get(url).then((res) => {
         if (res.errno !== 0) {
-            alert('数据错误')
+            alert('获取菜单数据错误')
             return
         }
         const data = res.data || []

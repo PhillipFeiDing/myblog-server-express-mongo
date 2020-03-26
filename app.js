@@ -13,6 +13,7 @@ const blogRouter = require('./routes/blog');
 const userRouter = require('./routes/user');
 const tagRouter = require('./routes/tag');
 const menuRouter = require('./routes/menu')
+const staticRouter = require('./routes/static')
 
 var app = express();
 
@@ -57,24 +58,26 @@ app.use(session({
   },
   store: sessionStore
 }));
-// 前端资源
-app.use(express.static(path.join(__dirname, 'public')));
 
-// 路由
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+// 前端资源
+app.use(express.static(path.join(__dirname, 'public'), {
+  extensions: ['html', 'htm'],
+}))
+
+// 后端路由
+app.use('/', staticRouter)
 app.use('/api/blog', blogRouter)
 app.use('/api/user', userRouter)
 app.use('/api/tag', tagRouter)
 app.use('/api/menu', menuRouter)
 
 
-// catch 404 and forward to error handler
+// 未命中路由引发404，转发至 Error Handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error Handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;

@@ -56,7 +56,7 @@ const getPageCount = (author, keyword, tagId) => {
 
 const getDetail = (id) => {
     id = escape(id)
-    const sql = `select * from blogs where id='${id}' `
+    const sql = `select * from blogs where id='${id}';`
     // 返回的仍然是一个 promise
     return exec(sql).then(rows => {
         return rows[0]
@@ -123,11 +123,52 @@ const delBlog = (id, author) => {
     })
 }
 
+const makeComment = (commentData = {}) => {
+    const githubUsername = escape(commentData.githubUsername || '')
+    const githubUserURL = escape(commentData.githubUserURL || '')
+    const githubAvatarURL = escape(commentData.githubAvatarURL || '')
+    const comment = escape(commentData.comment || '')
+    const blogid = escape(commentData.blogid)
+    const commenttime = commentData.commenttime
+    if (githubUsername !== '' && githubUserURL !== '' && githubAvatarURL !== '' && comment !== '' && blogid && commenttime) {
+        const sql = `insert into comments (username, userurl, avatarurl, blogid, comment, commenttime) value (
+            '${githubUsername}',
+            '${githubUserURL}',
+            '${githubAvatarURL}',
+            ${blogid},
+            '${comment}',
+            ${commenttime}
+        );`
+        return exec(sql).then(insertData => {
+            return true
+        })
+    } else {
+        return Promise.resolve(false)
+    }
+}
+
+const getComment = (blogid) => {
+    blogid = escape(blogid)
+    let sql = 'select * from comments where 1=1'
+    if (blogid !== '') {
+        sql += ` and blogid='${blogid}'`
+    }
+    sql += ';'
+    return exec(sql).then((data) => {
+        return {
+            'count': data.length,
+            'comments': data
+        }
+    })
+}
+
 module.exports = {
     getList,
     getPageCount,
     getDetail,
     newBlog,
     updateBlog,
-    delBlog
+    delBlog,
+    makeComment,
+    getComment
 }

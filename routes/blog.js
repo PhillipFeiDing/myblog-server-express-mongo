@@ -1,4 +1,5 @@
 const express = require('express')
+const axios = require('axios')
 const router = express.Router()
 
 const {
@@ -7,7 +8,9 @@ const {
     getDetail,
     newBlog,
     updateBlog,
-    delBlog
+    delBlog,
+    makeComment,
+    getComment
 } = require('../controller/blog')
 
 const {SuccessModel, ErrorModel} = require('../model/resModel')
@@ -92,6 +95,64 @@ router.post('/del', loginCheck, (req, res, next) => {
         } else {
             res.json(new ErrorModel("删除博客失败"))
         }
+    })
+})
+
+/* GET oauth */
+const clientID = '9f872687649b6af95b8d'
+const clientSecret = '1a37f26634785af81817d43ddf049266553f54a1'
+router.get('/oauth/redirect', (req, res, next) => {
+    const requestToken = req.query.code
+    axios({
+        method: 'post',
+        url: 'https://github.com/login/oauth/access_token?' +
+          `client_id=${clientID}&` +
+          `client_secret=${clientSecret}&` +
+          `code=${requestToken}`,
+        headers: {
+          accept: 'application/json'
+        }
+    }).then((tokenResponse) => {
+        const accessToken = tokenResponse.data.access_token
+        axios({
+            method: 'get',
+            url: `https://api.github.com/user`,
+            headers: {
+              accept: 'application/json',
+              Authorization: `token ${accessToken}`
+            }
+        }).then((result) => {
+            const cookieAge = 24 * 60 * 60 * 1000
+            res.cookie('githubUsername-secure', result.data.login, { maxAge: cookieAge, httpOnly: true })
+            res.cookie('githubUserURL-secure', result.data.html_url, { maxAge: cookieAge, httpOnly: true })
+            res.cookie('githubAvatarURL-secure', result.data.avatar_url, { maxAge: cookieAge, httpOnly: true })
+            res.cookie('githubUsername', result.data.login, { maxAge: cookieAge})
+            res.cookie('githubUserURL', result.data.html_url, { maxAge: cookieAge})
+            res.cookie('githubAvatarURL', result.data.avatar_url, { maxAge: cookieAge})
+            res.redirect(req.cookies.oauthRedirectURL)
+        })
+    })
+})
+
+router.post('/make-comment', (req, res, next) => {
+    req.body.githubUsername = req.cookies['githubUsername-secure']
+    req.body.githubUserURL = req.cookies['githubUserURL-secure']
+    req.body.githubAvatarURL = req.cookies['githubAvatarURL-secure']
+    const result = makeComment(req.body)
+    return result.then(val => {
+        if (val) {
+            res.json(new SuccessModel("评论成功"))
+        } else {
+            res.json(new ErrorModel("评论失败"))
+        }
+    })
+})
+
+router.get('/get-comment', (req, res, next) => {
+    const blogid = req.query.blogid || ''
+    const result = getComment(blogid)
+    return result.then(data => {
+        res.json(new SuccessModel(data))
     })
 })
 
