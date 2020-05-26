@@ -1,174 +1,81 @@
-const {exec, escape} = require("../db/mysql")
+const {
+    mongoose,
+    getNextSequenceValue
+} = require('../db/mongo')
 
-const perPage = 10
+const getList = () => {
+    return mongoose.models.Blog.find({
 
-const getList = (author, keyword, tagId, page) => {
-    author = escape(author)
-    keyword = escape(keyword)
-    let sql = `select id, title, exerpt, imageurl, author, createtime, tags from blogs where 1=1 `
-    if (author) {
-        sql += `and author='${author}' `
-    }
-    if (keyword) {
-        sql += `and title like '%${keyword}%' `
-    }
-    if (tagId) {
-        sql += `and (tags like '[%,${tagId},%]' or tags like '[${tagId},%]' or tags like '[%,${tagId}]' or tags like '[${tagId}]') `
-    }
-    sql += `order by createtime desc`
-    if (page) {
-        const pageNum = parseInt(page)
-        if (!isNaN(pageNum) && pageNum > 0) {
-            const low = (pageNum - 1) * perPage
-            sql += ` limit ${low}, ${perPage}`
-        } else {
-            return Promise.resolve([])
-        }
-    }
-    sql += `;`
-    
-    // 现在返回的是promise
-    return exec(sql)
-}
-
-const getPageCount = (author, keyword, tagId) => {
-    author = escape(author)
-    keyword = escape(keyword)
-    let sql = `select count(*) from blogs where 1=1 `
-    if (author) {
-        sql += `and author='${author}' `
-    }
-    if (keyword) {
-        sql += `and title like '%${keyword}%' `
-    }
-    if (tagId) {
-        sql += `and (tags like '[%,${tagId},%]' or tags like '[${tagId},%]' or tags like '[%,${tagId}]' or tags like '[${tagId}]') `
-    }
-    sql += `;`
-
-    // 这也是promise
-    return exec(sql).then(result => {
-        return {
-            pageCount: Math.ceil(result[0]['count(*)'] * 1.0 / perPage)
-        }
+    }, {
+        _id: 0,
+        __v: 0,
+        content: 0
+    }).sort({
+        time: -1
     })
 }
 
 const getDetail = (id) => {
     id = escape(id)
-    const sql = `select * from blogs where id='${id}';`
-    // 返回的仍然是一个 promise
-    return exec(sql).then(rows => {
-        return rows[0]
+    return mongoose.models.Blog.findOne({
+        id
+    }, {
+        _id: 0,
+        __v: 0,
+    }).then((res) => {
+        if (!res) {
+            throw new Error(`No such blog with ID ${id}.`)
+        }
+        return res
     })
 }
 
-const newBlog = ((blogData = {}) => {
-    // blogData 是一个博客对象，包含 title content author属性
-    const title = escape(blogData.title)
-    const author = escape(blogData.author)
-    const createTime = Date.now()
-
-    const sql = `
-        insert into blogs (title, content, createTime, author, exerpt, tags, imageurl)
-        value(
-            '${title}',
-            '',
-            '${createTime}',
-            '${author}',
-            '',
-            '[]',
-            ''
-        );
-    `
-    return exec(sql).then(insertData => {
-        return {
-            id: insertData.insertId
-        }
-    })
-})
-
-const updateBlog = (id, blogData = {}) => {
-    // id 就是要更新博客的id
-    // blogData 是一个博客对象，包含 title content 属性
-    const title = escape(blogData.title)
-    const content = escape(blogData.content)
-    const exerpt = escape(blogData.exerpt)
-    const imageurl = escape(blogData.imageUrl)
-    const tags = escape(JSON.stringify(blogData.tags))
-    const createtime = blogData.createtime
-
-    const sql = `
-        update blogs set title='${title}', content='${content}', exerpt='${exerpt}', imageurl='${imageurl}', tags='${tags}', createtime='${createtime}' where id=${id};
-    `
-
-    return exec(sql).then(updateData => {
-        if (updateData.affectedRows > 0) {
-            return true;
-        }
-        return false;
-    })
-}
-
-const delBlog = (id, author) => {
-    id = escape(id)
-    author = escape(author)
-    // id 就是要删除博客的id
-    const sql = `delete from blogs where id='${id}' and author='${author}';`
-    return exec(sql).then(delData => {
-        if (delData.affectedRows > 0) {
-            return true
-        }
-        return false
-    })
-}
-
-const makeComment = (commentData = {}) => {
-    const githubUsername = escape(commentData.githubUsername || '')
-    const githubUserURL = escape(commentData.githubUserURL || '')
-    const githubAvatarURL = escape(commentData.githubAvatarURL || '')
-    const comment = escape(commentData.comment || '')
-    const blogid = escape(commentData.blogid)
-    const commenttime = commentData.commenttime
-    if (githubUsername !== '' && githubUserURL !== '' && githubAvatarURL !== '' && comment !== '' && blogid && commenttime) {
-        const sql = `insert into comments (username, userurl, avatarurl, blogid, comment, commenttime) value (
-            '${githubUsername}',
-            '${githubUserURL}',
-            '${githubAvatarURL}',
-            ${blogid},
-            '${comment}',
-            ${commenttime}
-        );`
-        return exec(sql).then(insertData => {
-            return true
-        })
-    } else {
-        return Promise.resolve(false)
+const newBlog = async () => {
+    const id = await getNextSequenceValue(mongoose, 'blogId')
+    const blogData = {
+        id,
+        title: 'Blog ' + id,
+        time: Date.now()
     }
+    const newBlog = new mongoose.models.Blog(blogData)
+    return newBlog.save()
 }
 
-const getComment = (blogid) => {
-    blogid = escape(blogid)
-    let sql = 'select * from comments where 1=1'
-    if (blogid !== '') {
-        sql += ` and blogid='${blogid}'`
-    }
-    sql += ';'
-    return exec(sql).then((data) => {
-        return {
-            'count': data.length,
-            'comments': data
+const updateBlog = (blogData = {}) => {
+    const id = blogData.id
+    return mongoose.models.Blog.update({
+        id
+    }, {
+        $set: {
+            content: blogData.content,
+            time: blogData.time,
+            exerpt: blogData.exerpt,
+            tagList: blogData.tagList,
+            title: blogData.title,
+            imageURL: blogData.imageURL
         }
+    }).then(res => {
+        if (res.n !== 1) {
+            return false
+        }
+        return res
+    })
+}
+
+const deleteBlog = (blodId) => {
+    const id = blodId
+    return mongoose.models.Blog.remove({id}).then((res) => {
+        if (res.n !== 1) {
+            return false
+        }
+        return res
     })
 }
 
 module.exports = {
     getList,
-    getPageCount,
     getDetail,
     newBlog,
     updateBlog,
-    delBlog,
-    makeComment,
-    getComment
+    deleteBlog
 }

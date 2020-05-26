@@ -1,13 +1,19 @@
-const {exec, escape} = require("../db/mysql")
 const {genPassword} = require("../utils/cryp")
+
+const { ADMIN_PASSWORD_ENCRYPTED, ADMIN_EMAIL } = require('../confidential')
+
 const login = (username, password) => {
     username = escape(username)
-    // 生成加密密码
+    // Generate encrypted password
     password = escape(genPassword(password))
-    const sql = `select username, realname from users where username='${username}' and password='${password}';`
-    return exec(sql).then(rows => {
-        return rows[0] || {}
-    })
+    // console.log(password) // Uncomment this line if you want to see the encrypted password and set above!
+
+    if (password === ADMIN_PASSWORD_ENCRYPTED && username === ADMIN_EMAIL) {
+        return Promise.resolve({
+            username: ADMIN_EMAIL
+        })
+    }
+    return Promise.resolve({})
 }
 
 module.exports = {

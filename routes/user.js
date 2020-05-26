@@ -9,18 +9,16 @@ const {SuccessModel, ErrorModel} = require("../model/resModel")
 
 /* POST login */
 router.post('/login', (req, res, next) => {
-    const {username, password} = req.body
-    // const {username, password} = req.query
-    const result = login(username, password)
+    const {email, password} = req.body
+    const result = login(email, password)
     return result.then(data => {
         if (data.username) {
             // 操作cookie 设置httpOnly禁止修改
             req.session.username = data.username
-            req.session.realname = data.realname
-            res.json(new SuccessModel("登录成功"))
+            res.json(new SuccessModel("Login Successful."))
             return
         }
-        res.json(new ErrorModel("登录失败"))
+        res.json(new ErrorModel("Login Failed."))
     })
 })
 

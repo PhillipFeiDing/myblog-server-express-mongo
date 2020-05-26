@@ -1,0 +1,10 @@
+!important
+
+change
+    const redirect_uri = 'http://localhost:8000/api/blog/oauth/redirect'
+in
+    public/js/content_data.js
+to
+    const redirect_uri = 'http://www.phillipding.com/api/blog/oauth/redirect'
+when
+    DEPLOYMENT

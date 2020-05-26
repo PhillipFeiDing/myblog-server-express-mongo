@@ -5,5 +5,6 @@ module.exports = (req, res, next) => {
         next()
         return
     }
-    res.json(new ErrorModel('未登录'))
+
+    res.json(new ErrorModel('Error: Login Session Out.'))
 }

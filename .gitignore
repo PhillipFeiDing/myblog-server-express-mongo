@@ -1,5 +1,4 @@
 **/.DS_Store
-conf/db.js
-utils/cryp.js
 logs/*
-
+/node_modules
+/confidential

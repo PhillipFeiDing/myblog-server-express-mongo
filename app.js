@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
+// const cors = require('cors')
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -17,19 +18,22 @@ const staticRouter = require('./routes/static')
 
 var app = express();
 
-// view engine setup // 前端内容
+// solely for testing purpose, should comment out after testing
+// app.use(cors())
+
+// view engine setup - frontend
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// 日志
+// Log
 const ENV = process.env.NODE_ENV;
 if (ENV !== 'production') {
-  // 开发环境 或 测试环境
+  // Environment: Development
   app.use(logger('dev', {
     stream: process.stdout
   }));
 } else {
-  // 线上环境
+  // Environment: Production
   const logFileName = path.join(__dirname, 'logs', 'access.log')
   const writeStream = fs.createWriteStream(logFileName, {
     flags: 'a'
@@ -38,9 +42,11 @@ if (ENV !== 'production') {
     stream: writeStream
   }));
 }
-// post 数据
+
+// post data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 // cookie
 app.use(cookieParser());
 const redisClient = require('./db/redis')
@@ -52,19 +58,20 @@ app.use(session({
   saveUninitialized: true,
   secret: 'Wjiol_23123_',
   cookie: {
-    path: '/', // 默认配置
-    httpOnly: true, // 默认配置
+    path: '/', // default conf
+    httpOnly: true, // default conf
     maxAge: 24 * 60 * 60 * 1000
   },
   store: sessionStore
 }));
 
-// 前端资源
+// Frontend resources
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html', 'htm'],
 }))
 
-// 后端路由
+
+// Backend routes
 app.use('/', staticRouter)
 app.use('/api/blog', blogRouter)
 app.use('/api/user', userRouter)
@@ -72,7 +79,7 @@ app.use('/api/tag', tagRouter)
 app.use('/api/menu', menuRouter)
 
 
-// 未命中路由引发404，转发至 Error Handler
+// 404 triggered if none of the routes match，forward to Error Handler
 app.use(function(req, res, next) {
   next(createError(404));
 });

@@ -1,47 +1,99 @@
-const {exec, escape} = require("../db/mysql")
+const {
+    mongoose,
+    getNextSequenceValue
+} = require('../db/mongo')
 
-const getMenuList = (() => {
-    const sql = `select * from menu order by id asc;`
-    return exec(sql)
-})
-
-const newMenuItem = ((itemname, link) => {
-    itemname = escape(itemname)
-    link = escape(link)
-    const sql = `insert into menu (itemname, link) values ('${itemname}', '${link}');`
-    return exec(sql).then(newData => {
-        return {
-            id: newData.insertId
-        }
+const getTopicList = (() => {
+    return mongoose.models.Topic.find({}, {
+        _id: 0,
+        __v: 0
     })
 })
 
-const delMenuItem = ((id) => {
-    id = escape(id)
-    const sql = `delete from menu where id='${id}';`
-    return exec(sql).then(delData => {
-        if (delData.affectedRows > 0) {
-            return true
+const newTopicItem = async (topicName, blogId) => {
+    const topicData = {
+        id: await getNextSequenceValue(mongoose, 'topicId'),
+        topicName,
+        blogId
+    }
+    const newTopic = new mongoose.models.Topic(topicData)
+    return newTopic.save()
+}
+
+const deleteTopicItem = (id) => {
+    return mongoose.models.Topic.remove({id}).then((res) => {
+        if (res.n !== 1) {
+            return false
         }
-        return false
+        return res
+    })
+}
+
+const updateTopicItem = (id, blogId, topicName) => {
+    return mongoose.models.Topic.update({
+        id
+    }, {
+        $set: {
+            blogId,
+            topicName
+        }
+    }).then((res) => {
+        if (res.n !== 1) {
+            return false
+        }
+        return res
+    })
+}
+
+const getFriendList = (() => {
+    return mongoose.models.Friend.find({}, {
+        _id: 0,
+        __v: 0,
     })
 })
 
-const updateMenuItem = ((id, newItemName, newLink) => {
-    newItemName = escape(newItemName)
-    newLink = escape(newLink)
-    const sql = `update menu set itemname='${newItemName}', link='${newLink}' where id='${id}';`
-    return exec(sql).then(updateData => {
-        if (updateData.affectedRows > 0) {
-            return true;
+const newFriendItem = async (friendName, link) => {
+    const friendData = {
+        id: await getNextSequenceValue(mongoose, 'friendId'),
+        friendName,
+        link
+    }
+    const newFriend = new mongoose.models.Friend(friendData)
+    return newFriend.save()
+}
+
+const deleteFriendItem = (id) => {
+    return mongoose.models.Friend.remove({id}).then((res) => {
+        if (res.n !== 1) {
+            return false
         }
-        return false;
+        return res
     })
-})
+}
+
+const updateFriendItem = (id, friendName, link) => {
+    return mongoose.models.Friend.update({
+        id
+    }, {
+        $set: {
+            friendName,
+            link
+        }
+    }).then((res) => {
+        if (res.n !== 1) {
+            return false
+        }
+        return res
+    })
+}
 
 module.exports = {
-    getMenuList,
-    newMenuItem,
-    delMenuItem,
-    updateMenuItem
+    getTopicList,
+    newTopicItem,
+    deleteTopicItem,
+    updateTopicItem,
+    getFriendList,
+    newFriendItem,
+    deleteFriendItem,
+    updateFriendItem
 }

@@ -1,39 +1,53 @@
-const {exec, escape} = require("../db/mysql")
+const {
+    mongoose,
+    getNextSequenceValue
+} = require('../db/mongo')
 
 const getTagList = () => {
-    const sql = `select * from tags order by id asc;`
-    return exec(sql)
-}
-
-const newTag = (tagName) => {
-    tagName = escape(tagName)
-    const selectSql = `select id from tags where tagName='${tagName}';`
-    return exec(selectSql).then(selectData => {
-        if (selectData.length !== 0) {
-            return null
-        }
-        const insertSql = `insert into tags (tagName) values('${tagName}');`
-        return exec(insertSql).then(newData => {
-            return {
-                id: newData.insertId
-            }
-        })
+    return mongoose.models.Tag.find({}, {
+        _id: 0,
+        __v: 0
     })
 }
 
-const delTag = (tagId) => {
-    tagName = escape(tagId)
-    const sql = `delete from tags where id='${tagId}';`
-    return exec(sql).then(delData => {
-        if (delData.affectedRows > 0) {
-            return true
+const newTag = async (tagName) => {
+    const tagData = {
+        id: await getNextSequenceValue(mongoose, 'tagId'),
+        tagName
+    }
+    const newTag = new mongoose.models.Tag(tagData)
+    return newTag.save()
+}
+
+const deleteTag = (tagId) => {
+    const id = tagId
+    return mongoose.models.Tag.remove({id}).then((res) => {
+        if (res.n !== 1) {
+            return false
         }
-        return false
+        return res
+    })
+}
+
+const updateTag = (tagId, newTagName) => {
+    const id = tagId
+    return mongoose.models.Tag.update({
+        id
+    }, {
+        $set: {
+            tagName: newTagName
+        }
+    }).then(res => {
+        if (res.n !== 1) {
+            return false
+        }
+        return res
     })
 }
 
 module.exports = {
     newTag,
     getTagList,
-    delTag
+    deleteTag,
+    updateTag
 }

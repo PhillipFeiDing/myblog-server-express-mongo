@@ -1,0 +1,74 @@
+{
+    "data": [{
+        "id": 19,
+        "title": "LeetCode Problems Diary",
+        "exerpt": "Here I choose to record the solutions I used to solve the LeetCode problems that I think worth studying. Many of them can be solved with drastically different algorithms and data structures. I try to mention all of them but ultimately come up with the thinking and code for the optimal solution. Most codes are in Java, and the rest may be in Python.",
+        "imageURL": "",
+        "time": 1587705720000,
+        "tagList": [10]
+    }, {
+        "id": 17,
+        "title": "Python Flask Study Notes",
+        "exerpt": "Here are the notes I took while teaching myself to use the Python Flask framework to implement the backend for the CS 4400 Project. Flask is a lightweight and easy-to-learn web framework for Python developers. We look forward to delivering high-quality work by working with this framework!",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/flask-logo.png?raw=true",
+        "time": 1585000800000,
+        "tagList": [10]
+    }, {
+        "id": 10,
+        "title": "Space Trader Game Project",
+        "exerpt": "Space Trader is a game where player is allowed to travel around different regions in the universe and purchase and sell items in markets so that it is possible to make money in the game. The player will also encounter different types of NPC during travel and be able to interact with them in many ways.\nThis is a game project relating to a course I took at college. My team and I developed this game under the guidance of the course instructor, and the development involves completing timeboxed milestones.",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/space-trader.png?raw=true",
+        "time": 1573851600000,
+        "tagList": [2, 4]
+    }, {
+        "id": 2,
+        "title": "GBA Game Project: Pacman",
+        "exerpt": "This is a variation of the classical Pacman game written in C running on a GBA emulator. The original game was written in assembly but I successfully \"implanted\" this game on GBA (Game Boy Advanced), a video gamer made by Nintendo which takes advantage of the power provided by C programming language instead of writing games in ugly assembly. I only made three levels and all levels are kind of similar because I am lazy. However, I am sure you will love it. ",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/pacman-gba.gif?raw=true",
+        "time": 1573830000000,
+        "tagList": [2, 4]
+    }, {
+        "id": 15,
+        "title": "College English Portfolio",
+        "exerpt": "As a final word to summarize my work done in ENGL 1102, I found myself not only have acquired new skills regarding WOVEN communication modes building upon the skill set from ENGL 1101 but also discovered my values, strengths, and weaknesses in terms of becoming an effective communicator using all modes of WOVEN. Taking an overview of the college English classes I took in the past year (2 semesters), I have been exposed to virtually all modes of communication and felt more comfortable with which I used to struggle. The longer I retain and use these skills, the more I realize how they can benefit the rest of my life whenever I need to communicate myself to others under any circumstance.",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/woven.png?raw=true",
+        "time": 1556481600000,
+        "tagList": [2]
+    }, {
+        "id": 11,
+        "title": "Huffman Coding Algorithms",
+        "exerpt": "In computer science and information theory, a Huffman code is a particular type of optimal prefix code that is commonly used for lossless data compression. The process of finding or using such a code proceeds by means of Huffman coding, an algorithm developed by David A. Huffman while he was a Sc.D. student at MIT, and published in the 1952 paper \"A Method for the Construction of Minimum-Redundancy Codes\". This project provides an implementation of the classical Huffman encoding algorithms, an browser-based (JavaScript) demo interface, and a desktop (Java) utility tool available for download!",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/huffman-js.png?raw=true",
+        "time": 1544454000000,
+        "tagList": [2, 7]
+    }, {
+        "id": 9,
+        "title": "JavaScript Sudoku Game",
+        "exerpt": "Come in and try this browser-based sudoku game written in JavaScript. Compete with your friends and see who solves faster! There are over 150 levels marked with three different difficulty levels A through C, from the easiest to the impossible. Can you solve all of them? You can drag and drop numbers into the cells or type in using the click-enabled tiny keyboard. Notice you also get a limited number of cues if you get stucked. Feel free to pause at any time you want and come back again to solve these puzzles.",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/sudoku.png?raw=true",
+        "time": 1536505200000,
+        "tagList": [2, 4]
+    }, {
+        "id": 4,
+        "title": "Maze Generator and Solver",
+        "exerpt": "Recently I became obsessed with how mazes, which you can usually find at the back of a magazine, are automatically generated. At first, I think they must have been produced by extremely advanced algorithms that few people can understand. However, it was only through the process of solving an actual maze, which extensively applies various classical search algorithms, that I suspect the same procedure in a reverse manner might be effective in generating one. Luckily, by coding an actual prototype, it turns out that my program can answer both questions for me.",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/maze.gif?raw=true",
+        "time": 1533304800000,
+        "tagList": [2, 7]
+    }, {
+        "id": 8,
+        "title": "Computational Statistics Model",
+        "exerpt": "A interesting life simulation goes as the following. In a closed room there are exactly 100 people, and each person has exactly 100 dollars initially. In every minute everyone has to pick a random person among the 100 and give him/her 1 dollar. Therefore, after each minute, one could possibly gain some dollars from others, remain unchanged in wealth, or lose at most 1 dollar (in the case he/she gives out 1 dollar but received none) By common sense, everyone in the room has equal chance to gain or lose, so even after 1,000,000,000 rounds they should possess roughly equal amount of money. Is that true? Run the following simulation to verify!",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/statistics.gif?raw=true",
+        "time": 1529114400000,
+        "tagList": [2, 5]
+    }, {
+        "id": 7,
+        "title": "Computational Physics Model",
+        "exerpt": "As a progressive learner trying to master the Java language, I taught myself some GUI programming under the Swing framework, just to discover their usefulness in building and visualizing real world models. More precisely, I could make computational physics models by writing very simple and self-explanatory codes. Though more advanced commercial simulation tools might do a better job in both representing and rendering such models, coding them on my own has certainly enriched my knowledge of GUI programming, and hopefully, has helped me review some physics.",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/physics.gif?raw=true",
+        "time": 1527508800000,
+        "tagList": [2, 5]
+    }],
+    "errno": 0
+}
