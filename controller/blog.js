@@ -52,7 +52,8 @@ const updateBlog = (blogData = {}) => {
             exerpt: blogData.exerpt,
             tagList: blogData.tagList,
             title: blogData.title,
-            imageURL: blogData.imageURL
+            imageURL: blogData.imageURL,
+            channel: blogData.channel
         }
     }).then(res => {
         if (res.n !== 1) {

@@ -42,6 +42,11 @@ async function getBlogModel(mongoose) {
         imageURL: {
             type: String,
             default: ''
+        },
+        channel: {
+            type: String,
+            enum: ['en', 'cn'],
+            default: 'en'
         }
     })
     mongoose.model('Blog', BlogSchema)
