@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-// const cors = require('cors')
+const {requireCORS} = require('./constants')
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -18,8 +18,10 @@ const staticRouter = require('./routes/static')
 
 var app = express();
 
-// solely for testing purpose, should comment out after testing
-// app.use(cors())
+if (requireCORS) {
+  const cors = require('cors')
+  app.use(cors())
+}
 
 // view engine setup - frontend
 app.set('views', path.join(__dirname, 'views'));

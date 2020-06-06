@@ -1,7 +1,8 @@
 const {ErrorModel} = require('../model/resModel')
+const {loginCheck} = require('../constants')
 
 module.exports = (req, res, next) => {
-    if (req.session.username) {
+    if (req.session.username || !loginCheck) {
         next()
         return
     }
