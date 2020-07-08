@@ -1,0 +1,12 @@
+{
+    "data": {
+        "id": 15,
+        "content": "<p style=\"text-align: center;\"><iframe src=\"https://phillipfeiding.github.io/english-portfolio/\" scrolling=\"yes\" frameborder=\"no\" allowtransparency=\"true\" allowfullscreen=\"true\" sandbox=\"allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals\" id=\"idIframe\" width=\"870px;\" height=\"550px;\"></iframe><br></p><h1>About</h1><p><span style=\"font-size: large;\">This is the final portfolio project I accomplished during the first year at Tech when taking course ENGL 1102. The original portfolio was on GT Canvas but I decided to transplant it here as well.</span></p><p style=\"text-align: center;\"><br></p>",
+        "time": 1556481600000,
+        "exerpt": "As a final word to summarize my work done in ENGL 1102, I found myself not only have acquired new skills regarding WOVEN communication modes building upon the skill set from ENGL 1101 but also discovered my values, strengths, and weaknesses in terms of becoming an effective communicator using all modes of WOVEN. Taking an overview of the college English classes I took in the past year (2 semesters), I have been exposed to virtually all modes of communication and felt more comfortable with which I used to struggle. The longer I retain and use these skills, the more I realize how they can benefit the rest of my life whenever I need to communicate myself to others under any circumstance.",
+        "tagList": [2],
+        "title": "College English Portfolio",
+        "imageURL": "https://github.com/PhillipFeiDing/myblog-resource/blob/master/blog-cover-image/woven.png?raw=true"
+    },
+    "errno": 0
+}
